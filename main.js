@@ -44,21 +44,28 @@ var textureButtonOver = PIXI.Texture.fromImage('https://dl.dropboxusercontent.co
     // add it to the stage
     app.stage.addChild(button);
 
+var incr = 0;	
+	
+	
 function onButtonDown() {
     this.isdown = true;
     this.texture = textureButtonDown;
     this.alpha = 1;
-	window.alert("Hello");
+
 }
 
 function onButtonUp() {
-    this.isdown = false;
-    if (this.isOver) {
+   
+    if (this.isOver && this.isdown) {
+		
+		incr ++;
+			window.alert(incr);
         this.texture = textureButtonOver;
     }
     else {
         this.texture = textureButton;
     }
+	this.isdown = false;
 }
 
 function onButtonOver() {
