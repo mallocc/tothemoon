@@ -44,11 +44,11 @@ var textureButtonOver = PIXI.Texture.fromImage('https://dl.dropboxusercontent.co
     // add it to the stage
     app.stage.addChild(button);
 
-
 function onButtonDown() {
     this.isdown = true;
     this.texture = textureButtonDown;
     this.alpha = 1;
+	window.alert("Hello");
 }
 
 function onButtonUp() {
@@ -92,6 +92,7 @@ app.stage.on('pointertap', onClick);
 function onClick() {
     graphics.lineStyle(Math.random() * 30, Math.random() * 0xFFFFFF, 1);
     graphics.moveTo(Math.random() * 800, Math.random() * 600);
+	window.alert('arsar');
     graphics.bezierCurveTo(
         Math.random() * 800, Math.random() * 600,
         Math.random() * 800, Math.random() * 600,
