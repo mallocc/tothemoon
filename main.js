@@ -1,4 +1,4 @@
-var app = new PIXI.Application(800, 600, { antialias: true });
+var app = new PIXI.Application(window.innerWidth - 20, window.innerHeight - 20, { antialias: true });
 document.body.appendChild(app.view);
 
 app.stage.interactive = true;
