@@ -3,51 +3,80 @@ document.body.appendChild(app.view);
 
 app.stage.interactive = true;
 
-var graphics = new PIXI.Graphics();
+// create some textures from an image path
+var textureButton = PIXI.Texture.fromImage('https://dl.dropboxusercontent.com/s/mi2cibdajml8qj9/arrow_wait.png?dl=0');
+var textureButtonDown = PIXI.Texture.fromImage('https://dl.dropboxusercontent.com/s/m0x11c91wazehyp/arrow_error.png?dl=0');
+var textureButtonOver = PIXI.Texture.fromImage('https://dl.dropboxusercontent.com/s/1kuhddt8p9tr0k8/arrow_wait.png?dl=0');
 
-// set a fill and line style
-graphics.beginFill(0xFF3300);
-graphics.lineStyle(10, 0xffd900, 1);
+    var button = new PIXI.Sprite(textureButton);
+    button.buttonMode = true;
 
-// draw a shape
-graphics.moveTo(50,50);
-graphics.lineTo(250, 50);
-graphics.lineTo(100, 100);
-graphics.lineTo(250, 220);
-graphics.lineTo(50, 220);
-graphics.lineTo(50, 50);
-graphics.endFill();
+    button.anchor.set(0.5);
+    button.x = 200;
+    button.y = 200;
 
-// set a fill and line style again
-graphics.lineStyle(10, 0xFF0000, 0.8);
-graphics.beginFill(0xFF700B, 1);
+    // make the button interactive...
+    button.interactive = true;
+    button.buttonMode = true;
 
-// draw a second shape
-graphics.moveTo(210,300);
-graphics.lineTo(450,320);
-graphics.lineTo(570,350);
-graphics.quadraticCurveTo(600, 0, 480,100);
-graphics.lineTo(330,120);
-graphics.lineTo(410,200);
-graphics.lineTo(210,300);
-graphics.endFill();
+    button
+        // Mouse & touch events are normalized into
+        // the pointer* events for handling different
+        // button events.
+        .on('pointerdown', onButtonDown)
+        .on('pointerup', onButtonUp)
+        .on('pointerupoutside', onButtonUp)
+        .on('pointerover', onButtonOver)
+        .on('pointerout', onButtonOut);
 
-// draw a rectangle
-graphics.lineStyle(2, 0x0000FF, 1);
-graphics.drawRect(50, 250, 100, 100);
+        // Use mouse-only events
+        // .on('mousedown', onButtonDown)
+        // .on('mouseup', onButtonUp)
+        // .on('mouseupoutside', onButtonUp)
+        // .on('mouseover', onButtonOver)
+        // .on('mouseout', onButtonOut)
 
-// draw a circle
-graphics.lineStyle(0);
-graphics.beginFill(0xFFFF0B, 0.5);
-graphics.drawCircle(470, 200,100);
-graphics.endFill();
+        // Use touch-only events
+        // .on('touchstart', onButtonDown)
+        // .on('touchend', onButtonUp)
+        // .on('touchendoutside', onButtonUp)
 
-graphics.lineStyle(20, 0x33FF00);
-graphics.moveTo(30,30);
-graphics.lineTo(600, 300);
+    // add it to the stage
+    app.stage.addChild(button);
 
 
-app.stage.addChild(graphics);
+function onButtonDown() {
+    this.isdown = true;
+    this.texture = textureButtonDown;
+    this.alpha = 1;
+}
+
+function onButtonUp() {
+    this.isdown = false;
+    if (this.isOver) {
+        this.texture = textureButtonOver;
+    }
+    else {
+        this.texture = textureButton;
+    }
+}
+
+function onButtonOver() {
+    this.isOver = true;
+    if (this.isdown) {
+        return;
+    }
+    this.texture = textureButtonOver;
+}
+
+function onButtonOut() {
+    this.isOver = false;
+    if (this.isdown) {
+        return;
+    }
+    this.texture = textureButton;
+}
+
 
 // let's create a moving shape
 var thing = new PIXI.Graphics();
